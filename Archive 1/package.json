@@ -1,0 +1,13 @@
+{
+  "name": "barysh-eparchy",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "scripts": {
+    "dev:api": "npm --workspace api run dev",
+    "dev:web": "npm --workspace web run dev"
+  }
+}

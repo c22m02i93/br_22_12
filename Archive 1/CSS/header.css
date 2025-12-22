@@ -1,0 +1,183 @@
+/* ===========================
+   ХЕДЕР — СТИЛИ
+=========================== */
+
+.main-nav {
+    background: #fff;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.nav-level-1 {
+    list-style: none;
+    margin: 0;
+    padding: 0 20px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    font-weight: 600;
+}
+
+.nav-level-1 > li {
+    position: relative;
+}
+
+.nav-level-1 > li > a.nav-main-link {
+    font-size: 1.05rem;
+    color: #5c2f2f;
+    cursor: pointer;
+    padding: 6px 0;
+    display: inline-block;
+}
+
+.nav-level-1 > li > a.nav-main-link:hover {
+    color: #9b4747;
+}
+
+/* Подменю */
+.nav-level-2 {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 34px;
+    min-width: 220px;
+    background: #fff;
+    padding: 10px 0;
+    list-style: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border: 1px solid #f0e8e8;
+    z-index: 50;
+}
+
+.has-sub:hover .nav-level-2 {
+    display: block;
+}
+
+.nav-level-2 li a {
+    display: block;
+    padding: 8px 18px;
+    color: #6c2f2f;
+    font-size: 0.95rem;
+}
+
+.nav-level-2 li a:hover {
+    background: #f7f3f3;
+    color: #9b4747;
+}
+
+.nav-level-2 li.active > a {
+    font-weight: 700;
+    color: #8f3d3d;
+}
+
+/* Активный пункт верхнего меню */
+.nav-level-1 > li.active > a {
+    color: #b04040 !important;
+}
+
+/* ===========================
+   СТИЛИ ХЕДЕРА
+=========================== */
+
+.head {
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #d7d7d7;
+}
+
+.head .top-line {
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Segoe UI Light', arial;
+}
+
+.head .top-line-left {
+    color: #999;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.head .top-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 16px;
+}
+
+.head .top-icons a {
+    color: #666;
+}
+
+/* Лого + название */
+.head .logo-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 10px;
+}
+
+.head .site-title {
+    font-family: 'Segoe UI Light', arial;
+    font-size: 38px;
+    color: #444;
+    letter-spacing: 3px;
+}
+
+.head .site-subtitle {
+    font-family: 'Segoe UI Light', arial;
+    color: #999;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Разделительная линия */
+.head .divider {
+    border-top: 1px solid #d7d7d7;
+    margin-bottom: 10px;
+}
+
+/* ===========================
+   ПОИСК
+=========================== */
+
+#search-popup {
+    display: none;
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    z-index: 9999;
+}
+
+#search-popup .popup-inner {
+    width: 400px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 120px auto;
+    text-align: center;
+    font-family: Arial;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+#search-popup input[type="text"] {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+#search-popup button {
+    padding: 8px 18px;
+    border: none;
+    background: #444;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}

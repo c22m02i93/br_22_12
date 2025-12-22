@@ -1,0 +1,377 @@
+/* =========================================================
+   БАЗОВЫЕ СТИЛИ
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #333;
+    background: #f8f8f8;
+}
+
+a {
+    color: #4a4a95;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #26266e;
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* =========================================================
+   ГЛОБАЛЬНЫЙ КОНТЕЙНЕР
+========================================================= */
+
+.page-wrapper {
+    max-width: 1200px;
+    margin: 0 auto 40px auto;
+    padding: 0 16px 24px 16px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(18px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+/* =========================================================
+   ОСНОВНАЯ СЕТКА
+========================================================= */
+
+.layout {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+}
+
+.sidebar {
+    flex: 0 0 32%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.main-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (max-width: 900px) {
+    .layout {
+        flex-direction: column-reverse;
+    }
+}
+
+/* =========================================================
+   КАРТОЧКИ
+========================================================= */
+
+.card {
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 16px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(12px);
+}
+
+.card--centered {
+    text-align: center;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #633;
+    margin: 0 0 10px 0;
+    padding-bottom: 8px;
+    border-bottom: 3px solid rgba(240, 208, 200, 0.6);
+}
+
+.section-title a {
+    color: #A35241;
+}
+
+.section-title a:hover {
+    color: #c66955;
+}
+
+/* =========================================================
+   БЛОК "СЛОВО АРХИПАСТЫРЯ"
+========================================================= */
+
+.slovo-item {
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+.slovo-body {
+    display: flex;
+    gap: 12px;
+    border-bottom: 1px solid #D7D7D7;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.slovo-body img {
+    float: left;
+    width: 150px;
+    object-fit: cover;
+    max-height: 220px;
+    margin: 0 12px 8px 0;
+    border-radius: 12px;
+    border: 1px solid #C3D7D4;
+    padding: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+/* Ограничение текста */
+.clamp-4 {
+    position: relative;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.clamp-4::after {
+    content: "…";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-left: 20px;
+    background: linear-gradient(to right, transparent, #ffffff 50%);
+}
+
+/* =========================================================
+   НОВОСТЬ ДНЯ
+========================================================= */
+
+#new_day {
+    padding: 18px;
+}
+
+.news-day-image img {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    border: 1px solid #C3D7D4;
+    border-radius: 14px;
+}
+
+.news-day-image {
+    float: left;
+    margin: 0 14px 8px 0;
+}
+
+.news-day-text {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    overflow: hidden;
+}
+
+/* =========================================================
+   СПИСОК НОВОСТЕЙ
+========================================================= */
+
+.news-item {
+    margin-bottom: 14px;
+    border-bottom: 1px solid #D7D7D7;
+    padding-bottom: 10px;
+}
+
+.news-item:last-child {
+    border-bottom: none;
+}
+
+.news-item-body {
+    display: flex;
+    gap: 12px;
+}
+
+.news-item-image img {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    border: 1px solid #C3D7D4;
+    padding: 10px;
+    border-radius: 14px;
+}
+
+/* =========================================================
+   АНОНСЫ
+========================================================= */
+
+.announcement-card {
+    padding: 14px 14px 10px 14px;
+}
+
+.announcement-card h3 {
+    margin: 0 0 6px 0;
+    font-size: 1.05rem;
+}
+
+.announcement-text {
+    font-size: 0.95rem;
+}
+
+/* =========================================================
+   ВИДЕО
+========================================================= */
+
+.video-section iframe,
+.video-section video {
+    width: 100%;
+    border-radius: 14px;
+}
+
+/* =========================================================
+   ПРОЧЕЕ
+========================================================= */
+
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+/* =========================================================
+   События (правый блок)
+========================================================= */
+
+.events-item {
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid #E5E5E5;
+    position: relative;
+}
+
+.events-item:last-child {
+    border-bottom: none;
+}
+
+.events-date {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 4px;
+}
+
+.events-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6c2f2f;
+}
+
+.events-title:hover {
+    color: #9b4747;
+}
+
+.events-text {
+    font-size: 0.92rem;
+    margin-top: 6px;
+}
+
+.events-delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #b55;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.events-delete:hover {
+    color: #d66;
+}
+
+.events-image {
+    width: 80%;
+    max-width: 260px;
+    border-radius: 12px;
+    border: 1px solid #C3D7D4;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #333;
+}
+
+a {
+    color: #4a4a95;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #26266e;
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Основной контейнер */
+.page-wrapper {
+    max-width: 1200px;
+    margin: 0 auto 40px auto;
+    padding: 0 16px 24px 16px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(18px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+/* Заголовки */
+h1 {
+    font-size: 28px;
+    margin-top: 0;
+    color: #6c2f2f;
+    border-bottom: 3px solid rgba(240,208,200,0.6);
+    padding-bottom: 6px;
+}
+
+/* Секции */
+.title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 22px;
+    margin-bottom: 10px;
+    color: #633;
+}
+
+/* Параграфы */
+#osnovnoe p {
+    line-height: 1.6;
+    font-size: 0.98rem;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+/* Усиление табличных меток */
+b {
+    color: #6c2f2f;
+}
+
+/* Очистка обтекания */
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
