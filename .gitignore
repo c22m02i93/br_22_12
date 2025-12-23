@@ -1,0 +1,16 @@
+.env
+.DS_Store
+vendor/
+node_modules/
+
+# Legacy archives and reports
+Archive\ 1/Archive.zip
+Archive\ 1/webalizer/
+
+# Cache and generated files
+Archive\ 1/cache/
+Archive\ 1/cache_mitropolia/
+
+# Logs and dumps
+*.log
+host1409556_barysh.sql

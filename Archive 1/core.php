@@ -1,40 +1,41 @@
 <?php
-/**
- * Единый логический модуль сайта
- * ВАЖНО: НИКАКОГО HTML НЕТ — только логика, данные, разбор полей.
- * Вёрстка делается в index.php
- */
+declare(strict_types=1);
 
-require_once "function.php";
+require_once __DIR__ . '/function.php';
+require_once __DIR__ . '/inc/db.php';
 
-// Подключение БД (как в старом init)
-$mysqlConnection = mysql_connect("localhost", "host1409556", "0f7cd928");
-mysql_query("SET NAMES 'cp1251'");
+function fetchAll(string $sql, array $params = []): array
+{
+    $pdo = getPdo();
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll();
+}
 
-// Универсальный помощник
-function fetchAll($query) {
-    $res = mysql_query($query);
-    $out = [];
-    while ($row = mysql_fetch_assoc($res)) {
-        $out[] = $row;
-    }
-    return $out;
+function fetchOne(string $sql, array $params = []): ?array
+{
+    $pdo = getPdo();
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    $row = $stmt->fetch();
+    return $row === false ? null : $row;
 }
 
 /* ================================================================
-   1. НОВОСТЬ ДНЯ
+   1. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
 ================================================================ */
-function getNewsDay() {
+function getNewsDay(): ?array
+{
+    $item = fetchOne("SELECT * FROM host1409556_barysh.news_day LIMIT 1");
 
-    $res = mysql_query("SELECT * FROM host1409556_barysh.news_day");
-    $item = mysql_fetch_assoc($res);
+    if (!$item) {
+        return null;
+    }
 
-    if (!$item) return null;
-
-    // дата
+    // пїЅпїЅпїЅпїЅ
     $item['parsed_date'] = parseDate($item['data']);
 
-    // текст (очистка от старой разметки)
+    // пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
     $patterns = [
         '/(?:\{{3})(http:\/\/[^\s\[<\(\)\|]+)(?:\}{3})-(?:\{{3})([^}]+)(?:\}{3})/i',
         '/\n/', '/(?:\/{3})/','/(?:\|{3})/','/@[^@]+@/',
@@ -49,252 +50,267 @@ function getNewsDay() {
 
 
 /* ================================================================
-   2. КАЛЕНДАРЬ ЕПАРХИИ
+   2. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 ================================================================ */
-function getCalendar() {
-
-    $day   = Date("d");
-    $month = Date("m");
-    $year  = Date("Y");
+function getCalendar(): array
+{
+    $day   = date('d');
+    $month = date('m');
+    $year  = date('Y');
 
     $out = [
-        "date" => parseDate("$year.$month.$day 00:00"),
-        "arhierei" => [],
-        "duhovenstvo" => [],
-        "prestolnie" => []
+        'date' => parseDate("$year.$month.$day 00:00"),
+        'arhierei' => [],
+        'duhovenstvo' => [],
+        'prestolnie' => [],
     ];
 
-    // --- Архиерей
     $arhi = [];
 
     $events = [
-        "12.06" => ["type" => "birthday",  "year" => 1963],
-        "10.28" => ["type" => "hirotonia", "year" => 2012],
-        "11.30" => ["type" => "postrig",   "year" => 1996],
-        "12.02" => ["type" => "angel"]
+        '12.06' => ['type' => 'birthday',  'year' => 1963],
+        '10.28' => ['type' => 'hirotonia', 'year' => 2012],
+        '11.30' => ['type' => 'postrig',   'year' => 1996],
+        '12.02' => ['type' => 'angel'],
     ];
 
     $key = "$month.$day";
     if (isset($events[$key])) {
         $e = $events[$key];
-        if ($e["type"] == "angel") {
-            $arhi[] = ["title" => "День ангела"];
+        if ($e['type'] === 'angel') {
+            $arhi[] = ['title' => 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ'];
         } else {
-            $age = $year - $e["year"];
+            $age = $year - $e['year'];
             $titles = [
-                "birthday"  => "День рождения",
-                "hirotonia" => "Архиерейская хиротония",
-                "postrig"   => "Монашеский постриг",
+                'birthday'  => 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
+                'hirotonia' => 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
+                'postrig'   => 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
             ];
             $arhi[] = [
-                "title" => $titles[$e["type"]],
-                "years" => $age,
-                "years_text" => yearRus($age, "год","года","лет")
+                'title' => $titles[$e['type']],
+                'years' => $age,
+                'years_text' => yearRus($age, 'пїЅпїЅпїЅ','пїЅпїЅпїЅпїЅ','пїЅпїЅпїЅ'),
             ];
         }
     }
 
-    $out["arhierei"] = $arhi;
+    $out['arhierei'] = $arhi;
 
-    // --- духовенство
     $calendarKey = "$month.$day";
     $angelKey    = "$day.$month";
 
-    $klirik = fetchAll("
-        SELECT id, name, san, rozd, diak, presv, monah, angel
-        FROM host1409556_barysh.klir
-        WHERE status LIKE 'штатный'
-          AND (
-                rozd LIKE '%$calendarKey'
-             OR diak LIKE '%$calendarKey'
-             OR presv LIKE '%$calendarKey'
-             OR monah LIKE '%$calendarKey'
-             OR angel LIKE '%$angelKey%'
-          )
-        ORDER BY name ASC
-    ");
+    $klirik = fetchAll(
+        "SELECT id, name, san, rozd, diak, presv, monah, angel
+         FROM host1409556_barysh.klir
+         WHERE status LIKE 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ'
+           AND (
+                 rozd LIKE :calendar
+              OR diak LIKE :calendar
+              OR presv LIKE :calendar
+              OR monah LIKE :calendar
+              OR angel LIKE :angel
+           )
+         ORDER BY name ASC",
+        [
+            ':calendar' => '%' . $calendarKey,
+            ':angel' => '%' . $angelKey . '%',
+        ]
+    );
 
     foreach ($klirik as $k) {
         $item = [
-            "id" => $k["id"],
-            "name" => $k["name"],
-            "san" => $k["san"],
-            "type" => "",
-            "years" => ""
+            'id' => $k['id'],
+            'name' => $k['name'],
+            'san' => $k['san'],
+            'type' => '',
+            'years' => '',
         ];
 
-        if (substr($k["rozd"],5,5) === $calendarKey) {
-            $yy = substr($k["rozd"],0,4);
+        if (substr($k['rozd'], 5, 5) === $calendarKey) {
+            $yy = substr($k['rozd'], 0, 4);
             $age = $year - $yy;
-            $item["type"] = "birthday";
-            $item["years"] = $age;
+            $item['type'] = 'birthday';
+            $item['years'] = $age;
         }
-        if (substr($k["diak"],5,5) === $calendarKey) {
-            $yy = substr($k["diak"],0,4);
+        if (substr($k['diak'], 5, 5) === $calendarKey) {
+            $yy = substr($k['diak'], 0, 4);
             $age = $year - $yy;
-            $item["type"] = "diak";
-            $item["years"] = $age;
+            $item['type'] = 'diak';
+            $item['years'] = $age;
         }
-        if (substr($k["presv"],5,5) === $calendarKey) {
-            $yy = substr($k["presv"],0,4);
+        if (substr($k['presv'], 5, 5) === $calendarKey) {
+            $yy = substr($k['presv'], 0, 4);
             $age = $year - $yy;
-            $item["type"] = "ierey";
-            $item["years"] = $age;
+            $item['type'] = 'ierey';
+            $item['years'] = $age;
         }
-        if (substr($k["monah"],5,5) === $calendarKey) {
-            $yy = substr($k["monah"],0,4);
+        if (substr($k['monah'], 5, 5) === $calendarKey) {
+            $yy = substr($k['monah'], 0, 4);
             $age = $year - $yy;
-            $item["type"] = "monah";
-            $item["years"] = $age;
+            $item['type'] = 'monah';
+            $item['years'] = $age;
         }
-        if (strpos($k["angel"], $angelKey) !== false) {
-            $item["type"] = "angel";
+        if (strpos($k['angel'], $angelKey) !== false) {
+            $item['type'] = 'angel';
         }
 
-        $out["duhovenstvo"][] = $item;
+        $out['duhovenstvo'][] = $item;
     }
 
-    // --- престольные праздники
-    $prestol = fetchAll("
-        SELECT id, name
-        FROM host1409556_barysh.prihods
-        WHERE angel LIKE '%$day.$month%'
-        ORDER BY name ASC
-    ");
+    $prestol = fetchAll(
+        "SELECT id, name
+         FROM host1409556_barysh.prihods
+         WHERE angel LIKE :angel
+         ORDER BY name ASC",
+        [':angel' => '%' . $day . '.' . $month . '%']
+    );
 
-    $out["prestolnie"] = $prestol;
+    $out['prestolnie'] = $prestol;
 
     return $out;
 }
 
 
 /* ================================================================
-   3. КРЕСТНЫЙ ХОД (на сегодня)
+   3. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 ================================================================ */
-function getHod() {
+function getHod(): array
+{
+    $today = date('Y.m.d');
+    $year  = date('Y');
 
-    $today = Date("Y.m.d");
-    $year  = Date("Y");
+    if (!ctype_digit($year)) {
+        return [];
+    }
 
-    $res = fetchAll("
-        SELECT *
-        FROM host1409556_barysh.krest_hod_$year
-        WHERE data = '$today'
-        ORDER BY pribyv ASC
-    ");
+    $table = 'host1409556_barysh.krest_hod_' . $year;
+    $sql = "SELECT * FROM {$table} WHERE data = :today ORDER BY pribyv ASC";
 
-    return $res;
+    return fetchAll($sql, [':today' => $today]);
 }
 
 
 /* ================================================================
-   4. РАСПИСАНИЕ (архипастырское)
+   4. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 ================================================================ */
-function getRaspisanie() {
-    $today = Date("Y.m.d");
+function getRaspisanie(): array
+{
+    $today = date('Y.m.d');
 
-    return fetchAll("
-        SELECT *
-        FROM host1409556_barysh.raspisanie
-        WHERE data >= '$today'
-        ORDER BY data ASC, (text+0) ASC
-        LIMIT 3
-    ");
+    return fetchAll(
+        "SELECT *
+         FROM host1409556_barysh.raspisanie
+         WHERE data >= :today
+         ORDER BY data ASC, (text+0) ASC
+         LIMIT 3",
+        [':today' => $today]
+    );
 }
 
 
 /* ================================================================
-   5. АНОНСЫ
+   5. пїЅпїЅпїЅпїЅпїЅпїЅ
 ================================================================ */
-function getAnons() {
+function getAnons(): array
+{
     global $new_day;
 
-    $dtn_day = $new_day["data"];
+    $dtn_day = $new_day['data'] ?? null;
 
-    return fetchAll("
-        SELECT *
-        FROM host1409556_barysh.anons
-        WHERE data != '$dtn_day'
-        ORDER BY data DESC
-        LIMIT 2
-    ");
+    if (!$dtn_day) {
+        return [];
+    }
+
+    return fetchAll(
+        "SELECT *
+         FROM host1409556_barysh.anons
+         WHERE data != :data
+         ORDER BY data DESC
+         LIMIT 2",
+        [':data' => $dtn_day]
+    );
 }
 
 
 /* ================================================================
-   6. ТРИ НОВОСТИ
+   6. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 ================================================================ */
-function getNews3() {
-    return fetchAll("
-        SELECT *
-        FROM host1409556_barysh.news_eparhia
-        ORDER BY data DESC
-        LIMIT 3
-    ");
+function getNews3(): array
+{
+    return fetchAll(
+        "SELECT *
+         FROM host1409556_barysh.news_eparhia
+         ORDER BY data DESC
+         LIMIT 3"
+    );
 }
 
 
 /* ================================================================
-   7. ПУБЛИКАЦИИ
+   7. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 ================================================================ */
-function getPublikacii() {
-    return fetchAll("
-        SELECT *
-        FROM host1409556_barysh.publikacii
-        ORDER BY data DESC
-        LIMIT 3
-    ");
+function getPublikacii(): array
+{
+    return fetchAll(
+        "SELECT *
+         FROM host1409556_barysh.publikacii
+         ORDER BY data DESC
+         LIMIT 3"
+    );
 }
 
 
 /* ================================================================
-   8. СЛОВО АРХИПАСТЫРЯ
+   8. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 ================================================================ */
-function getSlovoPadre() {
-    return fetchAll("
-        SELECT tema, kratko, data, oblozka, link
-        FROM host1409556_barysh.news_mitropolia
-        WHERE section = 'slovo'
-          AND data >= '2025-11-01 00:00:00'
-        ORDER BY data DESC
-        LIMIT 2
-    ");
+function getSlovoPadre(): array
+{
+    return fetchAll(
+        "SELECT tema, kratko, data, oblozka, link
+         FROM host1409556_barysh.news_mitropolia
+         WHERE section = 'slovo'
+           AND data >= '2025-11-01 00:00:00'
+         ORDER BY data DESC
+         LIMIT 2"
+    );
 }
 
 
 /* ================================================================
-   9. ВИДЕО (как в старом коде)
+   9. пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)
 ================================================================ */
-function getVideo() {
-    return []; // позже добавлю, если нужно
+function getVideo(): array
+{
+    return []; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 }
 
 
 /* ================================================================
-   ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+   пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 ================================================================ */
-function parseDate($dt) {
-    $y = substr($dt,0,4);
-    $m = substr($dt,5,2);
-    $d = substr($dt,8,2);
-    $t = substr($dt,11,5);
+function parseDate(string $dt): array
+{
+    $y = substr($dt, 0, 4);
+    $m = substr($dt, 5, 2);
+    $d = substr($dt, 8, 2);
+    $t = substr($dt, 11, 5);
 
     $months = [
-        "01"=>"января","02"=>"февраля","03"=>"марта","04"=>"апреля","05"=>"мая",
-        "06"=>"июня","07"=>"июля","08"=>"августа","09"=>"сентября","10"=>"октября",
-        "11"=>"ноября","12"=>"декабря"
+        '01' => 'пїЅпїЅпїЅпїЅпїЅпїЅ', '02' => 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ', '03' => 'пїЅпїЅпїЅпїЅпїЅ', '04' => 'пїЅпїЅпїЅпїЅпїЅпїЅ', '05' => 'пїЅпїЅпїЅ',
+        '06' => 'пїЅпїЅпїЅпїЅ', '07' => 'пїЅпїЅпїЅпїЅ', '08' => 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ', '09' => 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ', '10' => 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
+        '11' => 'пїЅпїЅпїЅпїЅпїЅпїЅ', '12' => 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
     ];
 
-    if ($d[0] == "0") $d = substr($d,1);
+    if ($d[0] === '0') {
+        $d = substr($d, 1);
+    }
 
     return [
-        "raw" => $dt,
-        "day" => $d,
-        "month" => $m,
-        "month_text" => $months[$m],
-        "year" => $y,
-        "time" => $t
+        'raw' => $dt,
+        'day' => $d,
+        'month' => $m,
+        'month_text' => $months[$m] ?? $m,
+        'year' => $y,
+        'time' => $t,
     ];
 }
-
-?>

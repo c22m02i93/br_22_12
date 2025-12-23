@@ -1,20 +1,19 @@
 <?php
-// Запуск сессии, если передано имя сессии
-if (isset($_REQUEST[session_name()])) {
-    session_start();
-}
+declare(strict_types=1);
 
-// Получаем данные сессии
+session_start();
+
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 $auth = $_SESSION['auth'] ?? null;
 $name_user = $_SESSION['name_user'] ?? null;
 
-// Подключаем функции
-require_once 'function.php';
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+require_once __DIR__ . '/function.php';
+require_once __DIR__ . '/inc/db.php';
 
-// Подключаем базу
-$mysqlConnection = mysql_connect("localhost", "host1409556", "0f7cd928");
-if ($mysqlConnection) {
-    mysql_query("SET NAMES 'cp1251'", $mysqlConnection);
-} else {
-    die('Ошибка подключения к базе данных');
+try {
+    // Initialize PDO connection early
+    getPdo();
+} catch (PDOException $e) {
+    die('пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: ' . htmlspecialchars($e->getMessage()));
 }
