@@ -1,0 +1,10 @@
+.env
+.DS_Store
+
+# Cache and temporary content
+Archive 1/cache/
+Archive 1/cache_mitropolia/
+
+# Generated reports and archives
+Archive 1/webalizer/
+Archive 1/Archive.zip
