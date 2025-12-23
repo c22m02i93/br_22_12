@@ -19,6 +19,29 @@ Placeholder SQL migrations live in `db/migrations`:
 
 Apply them manually with your MySQL/MariaDB client when ready, adjusting database and table names to match production.
 
+### Importing the legacy dump and converting to utf8mb4
+
+1. Create the database with the legacy cp1251 encoding so the dump loads byte-for-byte:
+   ```sh
+   mysql -u root -p -e "CREATE DATABASE host1409556_barysh CHARACTER SET cp1251 COLLATE cp1251_general_ci;"
+   ```
+2. Import the dump using the matching client charset:
+   ```sh
+   mysql --default-character-set=cp1251 -u root -p host1409556_barysh < host1409556_barysh.sql
+   ```
+3. Convert the database and all tables to utf8mb4:
+   ```sh
+   mysql -u root -p host1409556_barysh < db/migrations/001_utf8mb4.sql
+   ```
+4. Add the search/date indexes once the charset is upgraded:
+   ```sh
+   mysql -u root -p host1409556_barysh < db/migrations/002_indexes.sql
+   ```
+5. Verify the conversion if needed:
+   ```sh
+   mysql -u root -p -e "SELECT table_name, table_collation FROM information_schema.tables WHERE table_schema='host1409556_barysh';"
+   ```
+
 ## Tooling
 
 Utility scripts live under `tools/` and are executable:
