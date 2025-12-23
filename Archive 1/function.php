@@ -1,4 +1,4 @@
-<?
+<?php
 function yearRus($a, $one, $two, $many)
 {
 	if (substr($a, -1) == 0 || substr($a, -1) == 5 || substr($a, -1) == 6 || substr($a, -1) == 7 || substr($a, -1) == 8 || substr($a, -1) == 9) $itog = $many;
@@ -15,18 +15,18 @@ return $itog;
 
 function GetNav($p, $num_pages, $url){
  
-//Проверяем нужна ли ссылка "На первую"
+//РџСЂРѕРІРµСЂСЏРµРј РЅСѓР¶РЅР° Р»Рё СЃСЃС‹Р»РєР° "РќР° РїРµСЂРІСѓСЋ"
   if($p > 4){
-    $first_page = '<a href="/'.$url.'.php?page=1">1...</a> ';   //или просто $first_page = '<a href="/'.$url.'.php"><<</a>';
+    $first_page = '<a href="/'.$url.'.php?page=1">1...</a> ';   //РёР»Рё РїСЂРѕСЃС‚Рѕ $first_page = '<a href="/'.$url.'.php"><<</a>';
   }
   elseif ($p > 3){
-    $first_page = '<a href="/'.$url.'.php?page=1">1</a> ';   //или просто $first_page = '<a href="/'.$url.'.php"><<</a>';
+    $first_page = '<a href="/'.$url.'.php?page=1">1</a> ';   //РёР»Рё РїСЂРѕСЃС‚Рѕ $first_page = '<a href="/'.$url.'.php"><<</a>';
   }
   else{
     $first_page = '';
   }
  
-//Проверяем нужна ли ссылка "На последнюю"
+//РџСЂРѕРІРµСЂСЏРµРј РЅСѓР¶РЅР° Р»Рё СЃСЃС‹Р»РєР° "РќР° РїРѕСЃР»РµРґРЅСЋСЋ"
   if($p < ($num_pages - 3)){
     $last_page = ' <a href="/'.$url.'.php?page='.$num_pages.'">...'.$num_pages.'</a> ';
   } elseif($p < ($num_pages - 2)){
@@ -36,23 +36,23 @@ function GetNav($p, $num_pages, $url){
     $last_page = '';
   }
  
-//Проверяем нужна ли ссылка "На предыдущую"
+//РџСЂРѕРІРµСЂСЏРµРј РЅСѓР¶РЅР° Р»Рё СЃСЃС‹Р»РєР° "РќР° РїСЂРµРґС‹РґСѓС‰СѓСЋ"
   if($p > 1){
-    $prev_page = ' <a href="/'.$url.'.php?page='.($p - 1).'">Предыдущая</a> | ';
+    $prev_page = ' <a href="/'.$url.'.php?page='.($p - 1).'">РџСЂРµРґС‹РґСѓС‰Р°СЏ</a> | ';
   }
   else{
-    $prev_page = '<span style="color:#999;font-family: Arial">Предыдущая </span>| ';
+    $prev_page = '<span style="color:#999;font-family: Arial">РџСЂРµРґС‹РґСѓС‰Р°СЏ </span>| ';
   }
  
-//Проверяем нужна ли ссылка "На следущую"
+//РџСЂРѕРІРµСЂСЏРµРј РЅСѓР¶РЅР° Р»Рё СЃСЃС‹Р»РєР° "РќР° СЃР»РµРґСѓС‰СѓСЋ"
   if($p < $num_pages){
-    $next_page = ' | <a href="/'.$url.'.php?page='.($p + 1).'">Следующая</a>';
+    $next_page = ' | <a href="/'.$url.'.php?page='.($p + 1).'">РЎР»РµРґСѓСЋС‰Р°СЏ</a>';
   }
   else{
-    $next_page = ' | <span style="color:#999;font-family: Arial">Следующая</span>';
+    $next_page = ' | <span style="color:#999;font-family: Arial">РЎР»РµРґСѓСЋС‰Р°СЏ</span>';
   }
  
-//Формируем по 2 страницы до и после текущей (при наличии таковых, конечно):
+//Р¤РѕСЂРјРёСЂСѓРµРј РїРѕ 2 СЃС‚СЂР°РЅРёС†С‹ РґРѕ Рё РїРѕСЃР»Рµ С‚РµРєСѓС‰РµР№ (РїСЂРё РЅР°Р»РёС‡РёРё С‚Р°РєРѕРІС‹С…, РєРѕРЅРµС‡РЅРѕ):
   if($p - 2 > 0){
     $prev_2_page = ' <a href="/'.$url.'.php?page='.($p - 2).'">'.($p - 2).'</a> ';
   }
@@ -82,18 +82,18 @@ function GetNav($p, $num_pages, $url){
 }
 function GetNavtip($p, $num_pages, $url, $tip){
  
-//Проверяем нужна ли ссылка "На первую"
+//РџСЂРѕРІРµСЂСЏРµРј РЅСѓР¶РЅР° Р»Рё СЃСЃС‹Р»РєР° "РќР° РїРµСЂРІСѓСЋ"
   if($p > 4){
-    $first_page = '<a href="/'.$url.'.php?page=1&tip='.$tip.'">1...</a> ';   //или просто $first_page = '<a href="/'.$url.'.php"><<</a>';
+    $first_page = '<a href="/'.$url.'.php?page=1&tip='.$tip.'">1...</a> ';   //РёР»Рё РїСЂРѕСЃС‚Рѕ $first_page = '<a href="/'.$url.'.php"><<</a>';
   }
   elseif ($p > 3){
-    $first_page = '<a href="/'.$url.'.php?page=1&tip='.$tip.'">1</a> ';   //или просто $first_page = '<a href="/'.$url.'.php"><<</a>';
+    $first_page = '<a href="/'.$url.'.php?page=1&tip='.$tip.'">1</a> ';   //РёР»Рё РїСЂРѕСЃС‚Рѕ $first_page = '<a href="/'.$url.'.php"><<</a>';
   }
   else{
     $first_page = '';
   }
  
-//Проверяем нужна ли ссылка "На последнюю"
+//РџСЂРѕРІРµСЂСЏРµРј РЅСѓР¶РЅР° Р»Рё СЃСЃС‹Р»РєР° "РќР° РїРѕСЃР»РµРґРЅСЋСЋ"
   if($p < ($num_pages - 3)){
     $last_page = ' <a href="/'.$url.'.php?page='.$num_pages.'&tip='.$tip.'">...'.$num_pages.'</a> ';
   } elseif($p < ($num_pages - 2)){
@@ -103,23 +103,23 @@ function GetNavtip($p, $num_pages, $url, $tip){
     $last_page = '';
   }
  
-//Проверяем нужна ли ссылка "На предыдущую"
+//РџСЂРѕРІРµСЂСЏРµРј РЅСѓР¶РЅР° Р»Рё СЃСЃС‹Р»РєР° "РќР° РїСЂРµРґС‹РґСѓС‰СѓСЋ"
   if($p > 1){
-    $prev_page = ' <a href="/'.$url.'.php?page='.($p - 1).'&tip='.$tip.'">Предыдущая</a> | ';
+    $prev_page = ' <a href="/'.$url.'.php?page='.($p - 1).'&tip='.$tip.'">РџСЂРµРґС‹РґСѓС‰Р°СЏ</a> | ';
   }
   else{
-    $prev_page = '<span style="color:#999;font-family: Arial">Предыдущая </span>| ';
+    $prev_page = '<span style="color:#999;font-family: Arial">РџСЂРµРґС‹РґСѓС‰Р°СЏ </span>| ';
   }
  
-//Проверяем нужна ли ссылка "На следущую"
+//РџСЂРѕРІРµСЂСЏРµРј РЅСѓР¶РЅР° Р»Рё СЃСЃС‹Р»РєР° "РќР° СЃР»РµРґСѓС‰СѓСЋ"
   if($p < $num_pages){
-    $next_page = ' | <a href="/'.$url.'.php?page='.($p + 1).'&tip='.$tip.'">Следующая</a>';
+    $next_page = ' | <a href="/'.$url.'.php?page='.($p + 1).'&tip='.$tip.'">РЎР»РµРґСѓСЋС‰Р°СЏ</a>';
   }
   else{
-    $next_page = ' | <span style="color:#999;font-family: Arial">Следующая</span>';
+    $next_page = ' | <span style="color:#999;font-family: Arial">РЎР»РµРґСѓСЋС‰Р°СЏ</span>';
   }
  
-//Формируем по 2 страницы до и после текущей (при наличии таковых, конечно):
+//Р¤РѕСЂРјРёСЂСѓРµРј РїРѕ 2 СЃС‚СЂР°РЅРёС†С‹ РґРѕ Рё РїРѕСЃР»Рµ С‚РµРєСѓС‰РµР№ (РїСЂРё РЅР°Р»РёС‡РёРё С‚Р°РєРѕРІС‹С…, РєРѕРЅРµС‡РЅРѕ):
   if($p - 2 > 0){
     $prev_2_page = ' <a href="/'.$url.'.php?page='.($p - 2).'&tip='.$tip.'">'.($p - 2).'</a> ';
   }
@@ -149,23 +149,23 @@ function GetNavtip($p, $num_pages, $url, $tip){
 }
 function rus2translit($string) {
 
-$yyn = substr($string,0,4); // Год
-$mmn = substr($string,5,2); // Месяц
-$ddn = substr($string,8,2); // День
+$yyn = substr($string,0,4); // Р“РѕРґ
+$mmn = substr($string,5,2); // РњРµСЃСЏС†
+$ddn = substr($string,8,2); // Р”РµРЅСЊ
 
-// Переназначаем переменные
-if ($mmn == "01") $mm1n="января";
-if ($mmn == "02") $mm1n="февраля";
-if ($mmn == "03") $mm1n="марта";
-if ($mmn == "04") $mm1n="апреля";
-if ($mmn == "05") $mm1n="мая";
-if ($mmn == "06") $mm1n="июня";
-if ($mmn == "07") $mm1n="июля";
-if ($mmn == "08") $mm1n="августа";
-if ($mmn == "09") $mm1n="сентября";
-if ($mmn == "10") $mm1n="октября";
-if ($mmn == "11") $mm1n="ноября";
-if ($mmn == "12") $mm1n="декабря";
+// РџРµСЂРµРЅР°Р·РЅР°С‡Р°РµРј РїРµСЂРµРјРµРЅРЅС‹Рµ
+if ($mmn == "01") $mm1n="СЏРЅРІР°СЂСЏ";
+if ($mmn == "02") $mm1n="С„РµРІСЂР°Р»СЏ";
+if ($mmn == "03") $mm1n="РјР°СЂС‚Р°";
+if ($mmn == "04") $mm1n="Р°РїСЂРµР»СЏ";
+if ($mmn == "05") $mm1n="РјР°СЏ";
+if ($mmn == "06") $mm1n="РёСЋРЅСЏ";
+if ($mmn == "07") $mm1n="РёСЋР»СЏ";
+if ($mmn == "08") $mm1n="Р°РІРіСѓСЃС‚Р°";
+if ($mmn == "09") $mm1n="СЃРµРЅС‚СЏР±СЂСЏ";
+if ($mmn == "10") $mm1n="РѕРєС‚СЏР±СЂСЏ";
+if ($mmn == "11") $mm1n="РЅРѕСЏР±СЂСЏ";
+if ($mmn == "12") $mm1n="РґРµРєР°Р±СЂСЏ";
 
 if ($ddn == "01") $ddn="1";
 if ($ddn == "02") $ddn="2";
@@ -182,10 +182,10 @@ return $itog;
 
 }
 function nedel ($time2) {
-// массив с названиями дней недели
- $days = array('Воскресенье' , 'Понедельник' , 'Вторник' , 'Среда' , 'Четверг' , 'Пятница' , 'Суббота' );
-// номер дня недели
-// с 0 до 6, 0 - воскресенье, 6 - суббота
+// РјР°СЃСЃРёРІ СЃ РЅР°Р·РІР°РЅРёСЏРјРё РґРЅРµР№ РЅРµРґРµР»Рё
+ $days = array('Р’РѕСЃРєСЂРµСЃРµРЅСЊРµ' , 'РџРѕРЅРµРґРµР»СЊРЅРёРє' , 'Р’С‚РѕСЂРЅРёРє' , 'РЎСЂРµРґР°' , 'Р§РµС‚РІРµСЂРі' , 'РџСЏС‚РЅРёС†Р°' , 'РЎСѓР±Р±РѕС‚Р°' );
+// РЅРѕРјРµСЂ РґРЅСЏ РЅРµРґРµР»Рё
+// СЃ 0 РґРѕ 6, 0 - РІРѕСЃРєСЂРµСЃРµРЅСЊРµ, 6 - СЃСѓР±Р±РѕС‚Р°
 $tmp=explode(".", $time2);
    $time2 = $tmp[2].".".$tmp[1].".".$tmp[0];
    $num_day = (date('w', strtotime($time2)));
